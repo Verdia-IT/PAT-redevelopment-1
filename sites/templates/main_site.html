@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+{% load static %}
+{% url 'main_scenario' as main_scenario_url %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/newprogram.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/main_program.css' %}">
+<style>
+    select {
+        /*background-color:#e6e6e6;*/
+        margin-bottom: 1em;
+        padding: .25em;
+        border: 0;
+        border-bottom: 1px solid currentcolor;
+        /*font-weight: bold;*/
+        letter-spacing: .15em;
+        border-radius: 0;
+    }
+
+    select:focus,
+    select:active {
+        outline: 0;
+        border-bottom-color: red;
+    }
+
+    light-font .breadcrumb-item+.breadcrumb-item::before {
+        color: #fff;
+    }
+
+    .light-font,
+    .breadcrumb-item.active {
+        color: red;
+        /*#cfd8dc*/
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-content" id="content">
+    <form method='post' id="form_program" action='/programs/main_program/'>{% csrf_token %}
+        <input type='hidden' name='hidden_program_id' id='hidden_program_id' value='{{ program.id }}'>
+    </form>
+    <input type='hidden' id='hidden_site_id' value='{{ site.id }}'>
+    <!-- Breadcrumb -->
+    <div class="light-font" style="margin-top:10px;padding-left: 0px;margin-left: 0px;">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb secondary-color row">
+                <li class="breadcrumb-item"><a class="white-text" href="{% url 'programs' %}">Programs</a></li>
+                <li class="breadcrumb-item"><a class='white-text' href="#"
+                        onclick="submitProgramForm();">{{ program.program_name }}</a></li>
+                <li class="breadcrumb-item active">{{ site.site_name }}</li>
+            </ol>
+        </nav>
+    </div>
+
+    <div class="container-fluid" style="background: white;padding:10px">
+
+        <div style="padding: 10px; margin-top: 40px">
+
+            <!-- Site accordion -->
+            <div class="accordion" id="site-accordion">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn" type="button" data-toggle="collapse" data-target="#collapseOne"
+                                aria-expanded="true" aria-controls="collapseOne">
+                                <h3 style="color:red">Site Details</h3>
+
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#site-accordion">
+                        <div class="card-body">
+                            <div class="col-lg-5 border border-info rounded p-3 m-3">
+                                <h3 align=center class="alert alert-info">Site Details</h3>
+                                <form method="post" id="form_site_details">{% csrf_token %}
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label" for="">Site Name</label>
+                                        <div class="col-sm-7">
+                                            <!-- <input type="text" class="form-control" id="" placeholder="Program - Portsmith"> -->
+                                            {{ site_form.site_name }}
+                                        </div>
+                                    </div>
+                                    <div id="error_site_details_site_name"></div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label" for="">NMI</label>
+                                        <div class="col-sm-7">
+                                            {{ site_form.NMI }}
+                                        </div>
+                                    </div>
+                                    <div id="error_site_details_NMI"></div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label" for="">Street Address</label>
+                                        <div class="col-sm-7">
+                                            {{ site_form.street_address }}
+                                        </div>
+                                    </div>
+                                    <div id="error_site_details_street_address"></div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label" for="">City</label>
+                                        <div class="col-sm-7">
+                                            {{ site_form.city }}
+                                        </div>
+                                    </div>
+                                    <div id="error_site_details_city"></div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label" for="">State</label>
+                                        <div class="col-sm-7">
+                                            {{ site_form.state }}
+                                        </div>
+                                    </div>
+                                    <div id="error_site_details_state"></div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label" for="">Postcode</label>
+                                        <div class="col-sm-7">
+                                            {{ site_form.postcode }}
+                                        </div>
+                                    </div>
+                                    <div id="error_site_details_postcode"></div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label" for="">Industry Type</label>
+                                        <div class="col-sm-7">
+                                            {{ site_form.industry_type }}
+                                        </div>
+                                    </div>
+                                    <div id="error_site_details_industry_type"></div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label" for="">DNSP</label>
+                                        <div class="col-sm-7">
+                                            {{ site_form.DNSP }}
+                                        </div>
+                                    </div>
+                                    <div id="error_site_details_DNSP"></div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-5 col-form-label" for="">Default Solar Data</label>
+                                        <div class="col-sm-7">
+                                            {{ site_form.default_solar_data }}
+                                        </div>
+                                    </div>
+                                    <div id="error_site_details_default_solar_data"></div>
+                                    <button type="submit" class="btn btn-danger form-control">Save Changes</button>
+                                    <div id="site_details_save_message"></div>
+                                </form>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <a href="" class="btn btn-info mt-3" style="vertical-align: middle;" data-toggle="modal"
+                data-target="#modal-new-scenario"><i class="fas fa-plus"></i> Create New Scenario</a>
+            <div id="div_scenarios_error"></div>
+            <!-- <table class="table table-bordered table-striped bg-light table-responsive" style="margin-top:10px;"> -->
+            <table class="table table-responsive" style="margin-top:10px;">
+                <thead>
+                    <tr align='center'>
+                        <td><strong>#</strong></td>
+                        <td><strong>Scenario</strong></td>
+                        <td><strong>Summary</strong></td>
+                        <td><strong>Notes</strong></td>
+                        <td><strong>Actions</strong></td>
+                    </tr>
+                </thead>
+                <tbody id="tbl_scenarios_body">
+                    <tr>
+                        <td>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="optradio">Scenario 1
+                                </label>
+                            </div>
+                        </td>
+                        <td>100kW, 1,000 LEDs, 18.5% IRR, 7.5 years payback</td>
+                        <td>Original tariff used</td>
+                        <td>
+                            <a href="{% url 'main_scenario' %}" class="btn btn-primary">Edit</a>
+                            <button class="btn btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="optradio">Scenario 2
+                                </label>
+                            </div>
+                        </td>
+                        <td>100kW, 1,000 LEDs, 18.5% IRR, 7.5 years payback</td>
+                        <td>Original tariff used</td>
+                        <td>
+                            <a href="{% url 'main_scenario' %}" class="btn btn-primary">Edit</a>
+                            <button class="btn btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="form-check disabled">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="optradio">Scenario 3
+                                </label>
+                            </div>
+                        </td>
+                        <td>100kW, 1,000 LEDs, 18.5% IRR, 7.5 years payback</td>
+                        <td>Original tariff used</td>
+                        <td>
+                            <a href="{% url 'main_scenario' %}" class="btn btn-primary">Edit</a>
+                            <button class="btn btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+
+
+    <!-- Modals -->
+
+    <!-- New Scenario Modal -->
+
+    <div class="modal fade" id="modal-new-scenario" tabindex="-1" role="dialog"
+        aria-labelledby="modal-new-scenario-title" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-new-scenario-title">Create New Scenario</h5>
+                    <button type="button" class="close btn-close-new-scenario">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" id="modal_form_new_scenario">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div id="new_scenario_modal_save_message"></div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Scenario Name</label>
+                            <div class="col-sm-6">
+                                {{ scenario_form.scenario_name }}
+                            </div>
+                        </div>
+                        <div id="error_new_scenario_modal_scenario_name"></div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Notes</label>
+                            <div class="col-sm-6">
+                                {{ scenario_form.notes }}
+                            </div>
+                        </div>
+                        <div id="error_new_scenario_modal_notes"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-close-new-scenario">Close</button>
+                        <button type="submit" class="btn btn-primary" id="btn_save_new_scenario">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+<script src="{% static 'customjs/main_site.js' %}" ></script>
+
+
+
+{% endblock %}

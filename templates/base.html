@@ -1,0 +1,47 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> 
+
+    <title>{% block title %}{% endblock %}</title>
+    {% include "base/css.html" %}
+    {% block head %}{% endblock %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/navb.css' %}">
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/fontawesomemin.css' %}"> -->
+  </head>
+  <body>
+    {% include "base/navbar.html" %}
+    
+      {% block content %}{% endblock %}  
+    
+  
+
+
+ 
+
+ 
+   
+
+
+
+<!-- End demo content -->
+
+
+
+
+    {% include "base/js.html" %}
+    <script src="{% static 'js/navb.js' %}"></script>
+    <script src="{% static 'js/papaparse.js' %}"></script>
+    <script src="{% static 'customjs/common.js' %}"></script>
+    {% block js %}{% endblock %}
+  </body>
+</html>
+
+
+
+
+
+

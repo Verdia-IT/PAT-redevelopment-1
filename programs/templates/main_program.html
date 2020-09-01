@@ -1,0 +1,421 @@
+{% extends "base.html" %}
+{% load static %}
+{% url 'main_site' as main_site_url %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/newprogram.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/main_program.css' %}">
+<style>
+	select {
+		/*background-color:#e6e6e6;*/
+		margin-bottom: 1em;
+		padding: .25em;
+		border: 0;
+		border-bottom: 1px solid currentcolor;
+		/*font-weight: bold;*/
+		letter-spacing: .15em;
+		border-radius: 0;
+	}
+
+	select:focus,
+	select:active {
+		outline: 0;
+		border-bottom-color: red;
+	}
+
+	light-font .breadcrumb-item+.breadcrumb-item::before {
+		color: #fff;
+	}
+
+	.light-font,
+	.breadcrumb-item.active {
+		color: red;
+		/*#cfd8dc*/
+	}
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-content" id="content">
+
+	<!-- Breadcrumb -->
+	<div class="light-font" style="margin-top:10px;padding-left: 0px;margin-left: 0px;">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb secondary-color">
+				<li class="breadcrumb-item"><a class="white-text" href="{% url 'programs' %}">Programs</a></li>
+				<li class="breadcrumb-item active">{{ program.program_name }} </li>
+			</ol>
+		</nav>
+	</div>
+
+	<div class="container-fluid" style="background: white;padding:10px">
+		<ul class="nav nav-tabs" id="myTab" role="tablist">
+			<li class="nav-item">
+				<a class="nav-link active" id="contact-details-tab" data-toggle="tab" href="#contact-details" role="tab"
+					aria-controls="home" aria-selected="true">Contact Details</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" id="overrides-tab" data-toggle="tab" href="#overrides" role="tab"
+					aria-controls="profile" aria-selected="false">Overrides</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" id="sites-tab" data-toggle="tab" href="#sites" role="tab" aria-controls="contact"
+					aria-selected="false">Sites</a>
+			</li>
+		</ul>
+		<div class="tab-content" id="myTabContent">
+
+			<!-- Tab Contact Details Start Here -->
+
+			<div class="tab-pane fade show active" id="contact-details" role="tabpanel"
+				aria-labelledby="contact-details-tab">
+				<div style="padding: 10px; margin-top: 40px">
+
+
+					<div class="col-lg-5 border border-info rounded p-3 m-3">
+						<h3 align=center class="alert alert-info">Contact Details</h3>
+						<form method="post" action="" id="form_program_contact_details">{% csrf_token %}
+							<input type="hidden" id="hidden_program_id" value="{{ program.id }}">
+							<div class="form-group row">
+								<label class="col-sm-5 col-form-label">Program Name</label>
+								<div class="col-sm-7">{{ program_form.program_name }}</div>
+							</div>
+							<div id="error_form_program_program_name"></div>
+							<div class="form-group row">
+								<label class="col-sm-5 col-form-label">Salesforce ID</label>
+								<div class="col-sm-7">{{ program_form.salesforce_id }}</div>
+							</div>
+							<div id="error_form_program_salesforce_id"></div>
+							<div class="form-group row">
+								<label class="col-sm-5 col-form-label">Contact Name</label>
+								<div class="col-sm-7">{{ program_form.contact_name }}</div>
+							</div>
+							<div id="error_form_program_contact_name"></div>
+							<div class="form-group row">
+								<label class="col-sm-5 col-form-label">Contact Title</label>
+								<div class="col-sm-7">{{ program_form.contact_title }}</div>
+							</div>
+							<div id="error_form_program_contact_title"></div>
+							<div class="form-group row">
+								<label class="col-sm-5 col-form-label">Contact Email</label>
+								<div class="col-sm-7">{{ program_form.contact_email }}</div>
+							</div>
+							<div id="error_form_program_contact_email"></div>
+							<div class="form-group row">
+								<label class="col-sm-5 col-form-label">Contact Phone</label>
+								<div class="col-sm-7">{{ program_form.contact_phone }}</div>
+							</div>
+							<div id="error_form_program_contact_phone"></div>
+
+							<div class="form-group row">
+								<button type="submit" class="btn btn-danger form-control">Save Changes</button>
+							</div>
+
+						</form>
+					</div>
+
+				</div>
+			</div>
+
+			<!-- Tab Overrides Start Here -->
+
+			<div class="tab-pane fade" id="overrides" role="tabpanel" aria-labelledby="overrides-tab">
+				<div style="padding: 10px; margin-top: 40px">
+					<form method="POST" action="" id="form_program_overrides">{% csrf_token %}
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label" for="">Cashflow Start Month</label>
+							<div class="col-sm-2">
+								{{ program_override_form.cashflow_start_month }}
+							</div>
+						</div>
+						<div id="error_form_program_overrides_cashflow_start_month"></div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label" for="">Cashflow Start Year</label>
+							<div class="col-sm-2">
+								{{ program_override_form.cashflow_start_year }}
+							</div>
+						</div>
+						<div id="error_form_program_overrides_cashflow_start_year"></div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label" for="">Discount Rate</label>
+							<div class="col-sm-2">
+								<div class="input-group">
+									{{ program_override_form.discount_rate }}
+									<div class="input-group-append">
+										<div class="input-group-text">%</div>
+									</div>
+								</div>								
+							</div>
+						</div>
+						<div id="error_form_program_overrides_discount_rate"></div>
+						<!-- <div class="form-group row">
+							<label class="col-sm-3 col-form-label" for="">Solar $/W</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" placeholder="1.7">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label" for="">Include Solar Maintenance Costs</label>
+							<div class="col-sm-4">
+								<select name="" class="form-control">
+									<option>Yes</option>
+									<option selected>No</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label" for="">Solar Verdia Fees</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" placeholder="15%">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label" for="">Lighting Verdia Fees</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" placeholder="25%">
+							</div>
+						</div> -->
+						
+
+						<button type="submit" class="btn btn-danger">Save Changes</button>
+					</form>
+				</div>
+			</div>
+
+			<!-- Tab Sites Start Here -->
+
+			<div class="tab-pane fade" id="sites" role="tabpanel" aria-labelledby="sites-tab">
+				<div style="padding: 10px; margin-top: 40px">
+					<a href="" class="btn btn-info" style="vertical-align: middle;" data-toggle="modal"
+						data-target="#modal-new-site"><i class="fas fa-plus"></i> Create New Site</a>
+					<button class="btn btn-danger" style="vertical-align: middle;" id="btn_run_simulations">Run Simulation</button>
+					
+					<div id="div_sites_error"></div>
+					<table class="table table-bordered table-striped bg-light table-responsive"
+						style="margin-top:10px;">
+						<thead class="font-weight-bold text-center">
+							<tr>
+								<td>#</td>
+								<td>Site</td>
+								<td>Include</td>
+								<td>Scenario</td>
+								<td>Summary</td>
+								<td>Actions</td>
+							</tr>
+						</thead>
+						<tbody id="tbl_sites_body"></tbody>
+					</table>
+					<div id="div_total_summary"></div>
+
+					<hr>
+					<h1>Program Level Outputs</h1>
+					<div class="container-fluid">
+						<div class="row" style="margin-top:20px">
+							<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" style="margin-bottom:20px;">
+								<div class="card">
+									<div class="card-body">
+										<h6 class="card-title" style="color:#ccd;">Solar kW</h6>
+										<hr>
+										<p align=center class="card-text" id="id_program_output_solar_size" style="font-size:35px;color:red;font-family:times">
+											<strong>{% if program_output %}{{ program_output.solar_size|floatformat:0 }} kW{% else %} - {% endif %}</strong></p>
+										<p align=center class="card-text" id="id_program_output_solar_size_desc" style="font-size:15px;color:#ccc;">
+											Solar PV installation <br> across {% if program_output %}{{ program_output.num_sites }}{% endif %} sites
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" style="margin-bottom:20px;">
+								<div class="card">
+									<div class="card-body">
+										<h6 class="card-title" style="color:#ccd;">LEDs</h6>
+										<hr>
+										<p align=center class="card-text" id="id_program_output_led" style="font-size:35px;color:red;font-family:times">
+											<strong>{% if program_output %}{{ program_output.num_led|floatformat:0 }}{% else %} - {% endif %}</strong></p>
+										<p align=center class="card-text" id="id_program_output_led_desc" style="font-size:15px;color:#ccc;">
+											Light upgraded <br> across {% if program_output %}{{ program_output.num_sites }}{% endif %} sites
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" style="margin-bottom:20px;">
+								<div class="card">
+									<div class="card-body">
+										<h6 class="card-title" style="color:#ccd;">$ Savings Yr 1</h6>
+										<hr>
+										<p align=center class="card-text" id="id_program_output_savings_yr_1_dollar" style="font-size:35px;color:red;font-family:times">
+											<strong>{% if program_output_dict %}{{ program_output_dict.dollar_savings }}{% else %} - {% endif %}</strong></p>
+										<p align=center class="card-text" id="id_program_output_savings_yr_1_dollar_desc" style="font-size:15px;color:#ccc;">
+											Est. savings year 1 of {% if program_output_dict %}{{ program_output_dict.electricity_current_bill }}{% else %} - {% endif %} current spend
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" style="margin-bottom:20px;">
+								<div class="card">
+									<div class="card-body">
+										<h6 class="card-title" style="color:#ccd;">Energy Savings Yr 1</h6>
+										<hr>
+										<p align=center class="card-text" id="id_program_output_savings_yr_1_energy" style="font-size:35px;color:red;font-family:times">
+											<strong>{% if program_output_dict %}{{program_output_dict.savings_yr_1_energy}} MWh{% else %}-{% endif %}</strong></p>
+										<p align=center class="card-text" id="id_program_output_savings_yr_1_energy_desc" style="font-size:15px;color:#ccc;">
+											Energy savings year 1. <br> {% if program_output_dict %}{{ program_output_dict.energy_savings_percent }}% of {{ program_output_dict.base_load_mwh }} MWh{% else %} - {% endif %}  
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" style="margin-bottom:20px;">
+								<div class="card">
+									<div class="card-body">
+										<h6 class="card-title" style="color:#ccd;">Payback</h6>
+										<hr>
+										<p align=center class="card-text" id="id_program_output_payback" style="font-size:35px;color:red;font-family:times">
+											<strong>{% if program_output %}{{ program_output.payback|floatformat:1 }} years{% else %} - {% endif %}</strong></p>
+										<p align=center class="card-text" id="id_program_output_payback_desc" style="font-size:15px;color:#ccc;">
+											Break Even Period. <br> Based on projected cashflow 
+											</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" style="margin-bottom:20px;">
+								<div class="card">
+									<div class="card-body">
+										<h6 class="card-title" style="color:#ccd;">NPV</h6>
+										<hr>
+										<p align=center class="card-text" id="id_program_output_npv" style="font-size:35px;color:red;font-family:times">
+											<strong>{% if program_output_dict %}{{ program_output_dict.npv }}{% else %} - {% endif %}</strong></p>
+										<p align=center class="card-text" id="id_program_output_npv_desc" style="font-size:15px;color:#ccc;">
+											NPV <br> 20 years
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3" style="margin-bottom:20px;">
+								<div class="card">
+									<div class="card-body">
+										<h6 class="card-title" style="color:#ccd;">IRR</h6>
+										<hr>
+										<p align=center class="card-text" id="id_program_output_irr" style="font-size:35px;color:red;font-family:times">
+											<strong>{% if program_output_dict %}{{ program_output_dict.irr|floatformat:1 }}%{% else %} - {% endif %}</strong></p>
+										<p align=center class="card-text" id="id_program_output_irr_desc" style="font-size:15px;color:#ccc;">Stand-alone program IRR <br> 20 years</p>
+									</div>
+								</div>
+							</div>
+	
+	
+						</div>
+						<div class="container-fluid">
+							<button type="submit" class="btn btn-info">Create Presentation</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modals -->
+
+	<!-- New Site Modal -->
+
+	<div class="modal fade" id="modal-new-site" tabindex="-1" role="dialog" aria-labelledby="modal-new-site-title"
+		aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modal-new-site-title">Create New Site</h5>
+					<button type="button" class="close btn-close-new-site">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form method="post" id="modal_form_new_site">
+					{% csrf_token %}
+					<div class="modal-body">
+						<div id="new_site_modal_save_message"></div>
+						<div class="form-group row">
+							<label for="" class="col-sm-6 col-form-label">Site Name</label>
+							<div class="col-sm-6">
+								{{ site_form.site_name }}
+							</div>
+						</div>
+						<div id="error_new_site_modal_site_name"></div>
+						<div class="form-group row">
+							<label for="" class="col-sm-6 col-form-label">NMI</label>
+							<div class="col-sm-6">
+								{{ site_form.NMI }}
+							</div>
+						</div>
+						<div id="error_new_site_modal_NMI"></div>
+						<div class="form-group row">
+							<label for="" class="col-sm-6 col-form-label">Street Address</label>
+							<div class="col-sm-6">
+								{{ site_form.street_address }}
+							</div>
+						</div>
+						<div id="error_new_site_modal_street_address"></div>
+						<div class="form-group row">
+							<label for="" class="col-sm-6 col-form-label">City</label>
+							<div class="col-sm-6">
+								{{ site_form.city }}
+							</div>
+						</div>
+						<div id="error_new_site_modal_city"></div>
+						<div class="form-group row">
+							<label for="" class="col-sm-6 col-form-label">State</label>
+							<div class="col-sm-6">
+								{{ site_form.state }}
+							</div>
+						</div>
+						<div id="error_new_site_modal_state"></div>
+						<div class="form-group row">
+							<label for="" class="col-sm-6 col-form-label">Postcode</label>
+							<div class="col-sm-6">
+								{{ site_form.postcode }}
+							</div>
+						</div>
+						<div id="error_new_site_modal_postcode"></div>
+						<div class="form-group row">
+							<label for="" class="col-sm-6 col-form-label">DNSP</label>
+							<div class="col-sm-6">
+								{{ site_form.DNSP }}
+							</div>
+						</div>
+						<div id="error_new_site_modal_DNSP"></div>
+						<div class="form-group row">
+							<label for="" class="col-sm-6 col-form-label">Industry Type</label>
+							<div class="col-sm-6">
+								{{ site_form.industry_type }}
+							</div>
+						</div>
+						<div id="error_new_site_modal_industry_type"></div>
+						<div class="form-group row">
+							<label for="" class="col-sm-6 col-form-label">Default Solar Data</label>
+							<div class="col-sm-6">
+								{{ site_form.default_solar_data }}
+							</div>
+						</div>
+						<div id="error_new_site_modal_default_solar_data"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary btn-close-new-site">Close</button>
+						<button type="submit" class="btn btn-primary" id="btn_save_new_site">Save changes</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+
+
+{% endblock %}
+
+
+{% block js %}
+
+<script src="{% static 'customjs/main_program.js' %}"></script>
+
+
+{% endblock %}

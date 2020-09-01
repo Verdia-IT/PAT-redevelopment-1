@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% url 'main_program' as main_program_url %}
+
+
+
+
+{% block head %}
+
+
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+<!-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.bootstrap.min.css"> -->
+<!-- Compiled and minified CSS -->
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
+<style>
+  .pagination {
+    text-align: center;
+    margin-top: 1em;
+  }
+  .pagination-action {
+    margin: 0 0.1em;
+    display: inline-block;
+    padding: 0.1em;
+    color: #B9B9B9;
+    font-size: 1.3em;
+  }
+  .pagination-action:hover {
+    color: #3354AA;
+  }
+  .pagination-number {
+    background-color: #6D85C7;
+    padding: 0.1em 0.7em;
+    color: #fff;
+    border-radius: 1px;
+  }
+  .pagination-number:hover, .pagination-current {
+    background-color: #3354AA;
+  }
+</style>
+
+
+{% endblock %}
+
+
+{% block content %}
+
+{% url 'main_program' as main_program_url %}
+
+<div class="page-content" id="content">
+  <div class="container mt-3 pt-2" style="background: white;">
+    <div class="row">
+      <div class="col-4"></div>
+      <div class="col-5">
+        <h2 style="color:red;"> Program Table </h2>
+      </div>
+      <div class="col-3 p-2">
+        <a href="" class="btn btn-info" style="vertical-align: middle;" data-toggle="modal"
+          data-target="#modal-new-program"><i class="fas fa-plus"></i> Create New Program</a>
+      </div>
+    </div>
+    <hr>
+    <div id="div_programs_error"></div>
+
+  
+
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">  
+          {% if programs.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page=1"><i class="fas fa-angle-double-left"></i></a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ programs.previous_page_number }}">Previous</a></li>
+          {% else %}
+          <li class="page-item disabled"><a class="page-link" href="#"><i class="fas fa-angle-double-left"></i></a></li>
+          <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+          {% endif %}
+          
+          
+          {% for num in my_range %}
+            {% if programs.number == num %}
+            <li class="page-item active"><a class="page-link" href="#">{{num}}</a></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+            {% endif %}
+          {% endfor %}
+
+          {% if programs.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ programs.next_page_number }}">Next</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ programs.paginator.num_pages }}"><i class="fas fa-angle-double-right"></i></a></li>
+          {% else %}
+          <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+          <li class="page-item disabled"><a class="page-link" href="#"><i class="fas fa-angle-double-right"></i></a></li>
+          {% endif %}
+        </ul>
+      </nav>
+
+
+    <table id="tbl_programs" class="table table-bordered table-hover table-striped display order-column">
+      <thead class="font-weight-bold">
+        <tr align=center>
+          <td>Program ID</td>
+          <td>Program Name</td>
+          <td>Actions</td>
+        </tr>
+      </thead>
+      <tbody id="tbl_programs_body">
+        {% for program in programs %}
+        <tr align='center'>
+          <td>{{ program.id }}</td>
+          <td>{{ program.program_name }}</td>                                
+          <td>
+            <form method='post' action='/programs/main_program/'>{% csrf_token %}
+              <input type='hidden' name='hidden_program_id' value='{{ program.id }}'>                                   
+              <button type='submit' class='btn text-secondary px-0'><i class='far fa-edit fa-lg'></i></button>
+            </form>        
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+
+    </table>
+  </div>
+
+  <!-- Modals -->
+  <!-- Add New Program Modal -->
+  <div class="modal fade" id="modal-new-program" tabindex="-1" role="dialog" aria-labelledby="modal-new-program-title"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal-new-program-title">Create New Program</h5>
+          <button type="button" class="close btn-close-new-program">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="post" id="modal_form_new_program">
+          {% csrf_token %}
+          <div class="modal-body">
+            <div id="new_program_modal_save_message"></div>
+            <!-- <input type="hidden" id="hidden_new_program_id"> -->
+            <div class="form-group row">
+              <label for="" class="col-sm-6 col-form-label">Program Name</label>
+              <div class="col-sm-6">
+                {{ program_form.program_name }}
+              </div>
+            </div>
+            <div id="error_new_program_modal_program_name"></div>
+            <div class="form-group row">
+              <label for="" class="col-sm-6 col-form-label">Salesforce Id</label>
+              <div class="col-sm-6">
+                {{ program_form.salesforce_id }}
+              </div>
+            </div>
+            <div id="error_new_program_modal_salesforce_id"></div>
+            <div class="form-group row">
+              <label for="" class="col-sm-6 col-form-label">Contact Name</label>
+              <div class="col-sm-6">
+                {{ program_form.contact_name }}
+              </div>
+            </div>
+            <div id="error_new_program_modal_contact_name"></div>
+            <div class="form-group row">
+              <label for="" class="col-sm-6 col-form-label">Contact Title</label>
+              <div class="col-sm-6">
+                {{ program_form.contact_title }}
+              </div>
+            </div>
+            <div id="error_new_program_modal_contact_title"></div>
+            <div class="form-group row">
+              <label for="" class="col-sm-6 col-form-label">Contact Email</label>
+              <div class="col-sm-6">
+                {{ program_form.contact_email }}
+              </div>
+            </div>
+            <div id="error_new_program_modal_contact_email"></div>
+            <div class="form-group row">
+              <label for="" class="col-sm-6 col-form-label">Contact Phone</label>
+              <div class="col-sm-6">
+                {{ program_form.contact_phone }}
+              </div>
+            </div>
+            <div id="error_new_program_modal_contact_phone"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-close-new-program">Close</button>
+            <button type="submit" class="btn btn-primary" id="btn_save_new_program">Save changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+{% endblock %}
+
+
+
+
+
+
+{% block js %}
+
+
+
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="http://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script> -->
+
+
+<!-- Compiled and minified JavaScript -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
+<script src="{% static 'customjs/programs.js' %}"></script>
+
+
+{% endblock %}

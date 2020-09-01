@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+
+
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+
+
+
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-content" id="content">
+
+	<div class="row" style="margin-top: 20px">
+		<div class="col-10 col-lg-6 col-sm-10 col-md-10 col-xl-4" style="margin-bottom: 15px;">
+            <div class="card" style="background:#e0ebeb;">
+                <div style="text-align:center;background: #ccd1d9;padding: 3px;margin-bottom: 15px;">
+                    <h5>SERVER LOAD</h5>
+                </div>
+                <canvas id="myChart" style="margin-top:5px"></canvas>
+                <div class="card-body" style="height:3rem;background: #5c8a8a" >
+                    <h5 class="card-title" style="text-align:center; color:#e0ebeb;">GRAPH OF SALES</h5>
+                    <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                </div>              
+            </div>			
+		</div>
+        <div class="col-10 col-lg-6 col-sm-10 col-md-10 col-xl-4" style="margin-bottom: 15px;">
+            <div class="card" style="background:#e0ebeb;">
+                <div style="text-align:center;background: #ccd1d9;padding: 3px;margin-bottom: 15px;">
+                    <h5>SERVER LOAD</h5>
+                  </div>
+                <canvas id="myChart2" style="margin-top:5px"></canvas>
+                <div class="card-body" style="height:3rem;background: #5c8a8a" >
+                    <h5 class="card-title" style="text-align:center; color:#e0ebeb;">GRAPH OF SALES</h5>
+                    <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                </div>              
+            </div>          
+        </div>
+        <div class="col-10 col-lg-6 col-sm-10 col-md-10 col-xl-4" style="margin-bottom: 15px;">
+            <div class="card" style="background:#e0ebeb;">
+                <div style="text-align:center;background: #ccd1d9;padding: 3px;margin-bottom: 15px;">
+                    <h5>SERVER LOAD</h5>
+                  </div>
+                <canvas id="myChart3" style="margin-top:5px"></canvas>
+                <div class="card-body" style="height:3rem;background: #5c8a8a" >
+                    <h5 class="card-title" style="text-align:center; color:#e0ebeb;">GRAPH OF SALES</h5>
+                    <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                </div>              
+            </div>          
+        </div>
+        <div class="col-10 col-lg-6 col-sm-10 col-md-10 col-xl-4" style="margin-bottom: 15px;">
+            <div class="card" style="background:#e0ebeb;">
+                <div style="text-align:center;background: #ccd1d9;padding: 3px;margin-bottom: 15px;">
+                    <h5>SERVER LOAD</h5>
+                </div>
+                <canvas id="myChart4" style="margin-top:5px;max-height: 450px"></canvas>
+                <div class="card-body" style="height:3rem;background: #5c8a8a" >
+                    <h5 class="card-title" style="text-align:center; color:#e0ebeb;">GRAPH OF SALES</h5>
+                    <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                </div>              
+            </div>          
+        </div>
+    </div>  
+</div>
+
+
+
+
+<!-- <canvas id="myChart1" width="400" height="400"></canvas> -->
+
+{% endblock %}
+
+{% block js %}
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 2
+        }]
+    },
+    options: {
+        scales: {        	 
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                },
+                gridLines:{
+                	display: false
+                }
+            }],
+            xAxes: [{
+                gridLines:{
+                	display: false
+                }
+            }]
+        }
+    }
+});
+
+var ctx = document.getElementById('myChart2').getContext('2d');
+var myChart2 = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',            
+            data: [12, 19, 3, 5, 2, 3],
+            borderWidth: 2
+        }]
+    },
+    options: {
+        scales: {            
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                },
+                gridLines:{
+                    display: false
+                }
+            }],
+            xAxes: [{
+                gridLines:{
+                    display: false
+                }
+            }]
+        }
+    }
+});
+
+var ctx = document.getElementById('myChart3').getContext('2d');
+var myChart2 = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            // label: '# of Votes',
+            backgroundColor: ["#0074D9", "#FF4136", "#2ECC40", "#FF851B", "#7FDBFF"],
+            data: [12, 19, 3, 5, 2, 3],
+        }]
+    },
+    options: {
+        scales: {            
+           
+        }
+    }
+});
+var ctx = document.getElementById('myChart4').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 2
+        }]
+    },
+    options: {
+        scales: {            
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                },
+                gridLines:{
+                    display: false
+                }
+            }],
+            xAxes: [{
+                gridLines:{
+                    display: false
+                }
+            }]
+        }
+    }
+});
+
+
+
+
+</script>
+
+{% endblock %}

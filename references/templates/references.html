@@ -1,0 +1,2018 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/newprogram.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/main_program.css' %}">
+<style>
+.file1 {
+        visibility: hidden !important;
+        position: absolute;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="page-content" id="content">
+    <div class="container-fluid mt-3" style="background: white;padding:10px">
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <!-- <a class="nav-item nav-link active" id="resource-download-tab" data-toggle="tab"
+                    href="#resource-download" role="tab" aria-selected="true">Resource Download</a> -->
+                <a class="nav-item nav-link active" id="renewable-certificates-tab" data-toggle="tab"
+                    href="#renewable-certificates" role="tab" aria-selected="true">Renewable Certificates</a>
+                <a class="nav-item nav-link" id="rates-escalations-tab" data-toggle="tab" href="#rates-escalations"
+                    role="tab" aria-controls="nav-profile" aria-selected="false">Energy Rates and Escalations</a>
+                <a class="nav-item nav-link" id="westpac-rates-tab" data-toggle="tab" href="#westpac-rates" role="tab"
+                    aria-selected="false">Westpac Rates</a>
+                <a class="nav-item nav-link" id="lighting-database-tab" data-toggle="tab" href="#lighting-database"
+                    role="tab" aria-selected="false">Lighting Database</a>
+                <a class="nav-item nav-link" id="solar-pfc-costs-tab" data-toggle="tab" href="#solar-pfc-costs"
+                    role="tab" aria-selected="false">Solar & PFC Costs</a>
+                <a class="nav-item nav-link" id="solar-resource-tab" data-toggle="tab" href="#solar-resource"
+                    role="tab" aria-selected="false">Solar Resource</a>
+            </div>
+        </nav>
+
+
+        <div class="tab-content" id="nav-tabContent">
+
+            <!-- Tab Resources download -->
+            <!-- <div class="tab-pane fade show active" id="resource-download" role="tabpanel"
+                aria-labelledby="resource-download-tab">
+                <div style="padding: 10px; margin-top: 40px">
+                    <div class="row">
+                        <div class="col-lg-4 col-sm-10">
+                            <button class="btn btn-primary" id="btn-download-data">Download Data</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div> -->
+
+
+            <!-- Tab Renewable Certificates start here -->
+            <div class="tab-pane fade show active" id="renewable-certificates" role="tabpanel"
+                aria-labelledby="renewable-certificates-tab">
+                <div style="padding: 10px; margin-top: 40px">
+
+                    <div class="row">
+                        <div class="col-lg-4 col-sm-10">
+                            <table class="table table-responsive">{% csrf_token %}
+                                <tbody>
+                                    <tr>
+                                        <td><strong>STCs</strong></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">$</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="STC_price"
+                                                    value="{{ certificate_data.STCprice }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>VEECs</strong></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">$</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="VEEC_price"
+                                                    value="{{ certificate_data.VEECprice }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>ESCs</strong></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">$</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="ESC_price"
+                                                    value="{{ certificate_data.ESCprice }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <button class="btn btn-success btn-block"
+                                                id="btn-save-certificate-prices">Save</button>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-4 col-sm-10">
+                            <table class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>Year</th>
+                                        <th>LGC Prices ($/MWh)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>2019</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">$</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="LGC_price_2019"
+                                                    value="{{ certificate_data.LGCprice2019 }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2020</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">$</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="LGC_price_2020"
+                                                    value="{{ certificate_data.LGCprice2020 }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2021</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">$</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="LGC_price_2021"
+                                                    value="{{ certificate_data.LGCprice2021 }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2022</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">$</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="LGC_price_2022"
+                                                    value="{{ certificate_data.LGCprice2022 }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2023</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">$</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="LGC_price_2023"
+                                                    value="{{ certificate_data.LGCprice2023 }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2024</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">$</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="LGC_price_2024"
+                                                    value="{{ certificate_data.LGCprice2024 }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2025</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">$</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="LGC_price_2025"
+                                                    value="{{ certificate_data.LGCprice2025 }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2026</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">$</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="LGC_price_2026"
+                                                    value="{{ certificate_data.LGCprice2026 }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2027</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">$</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="LGC_price_2027"
+                                                    value="{{ certificate_data.LGCprice2027 }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2028</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">$</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="LGC_price_2028"
+                                                    value="{{ certificate_data.LGCprice2028 }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2029</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">$</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="LGC_price_2029"
+                                                    value="{{ certificate_data.LGCprice2029 }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2030</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">$</div>
+                                                </div>
+                                                <input type="text" class="form-control" id="LGC_price_2030"
+                                                    value="{{ certificate_data.LGCprice2030 }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Energy Rates and Escalations start here -->
+            <div class="tab-pane fade" id="rates-escalations" role="tabpanel" aria-labelledby="rates-escalations-tab">
+                <div style="padding: 10px; margin-top: 40px">
+                    <div class="row">
+                        <div class="col-10">
+                            <table class="table table-responsive" style="display:block; overflow: auto;">
+                                <thead>
+                                    <tr align="center">
+                                        <th colspan="9">Electricity Price Trend (% change p.a.)</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Year</th>
+                                        <th>Queensland</th>
+                                        <th>New South Wales</th>
+                                        <th>Victoria</th>
+                                        <th>South Australia</th>
+                                        <th>Western Australia</th>
+                                        <th>Australian Capital Territory</th>
+                                        <th>Tasmania</th>
+                                        <th>Northern Territory</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>2019</strong></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2019_qld"
+                                                    value="{{ tariff_escalations_2019.queensland }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2019_nsw"
+                                                    value="{{ tariff_escalations_2019.new_south_wales }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2019_vic"
+                                                    value="{{ tariff_escalations_2019.victoria }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2019_sa"
+                                                    value="{{ tariff_escalations_2019.south_australia }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2019_wa"
+                                                    value="{{ tariff_escalations_2019.western_australia }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2019_act"
+                                                    value="{{ tariff_escalations_2019.australian_capital_territory }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2019_tas"
+                                                    value="{{ tariff_escalations_2019.tasmania }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2019_nt"
+                                                    value="{{ tariff_escalations_2019.northern_territory }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>2020</strong></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2020_qld"
+                                                    value="{{ tariff_escalations_2020.queensland }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2020_nsw"
+                                                    value="{{ tariff_escalations_2020.new_south_wales }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2020_vic"
+                                                    value="{{ tariff_escalations_2020.victoria }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2020_sa"
+                                                    value="{{ tariff_escalations_2020.south_australia }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2020_wa"
+                                                    value="{{ tariff_escalations_2020.western_australia }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2020_act"
+                                                    value="{{ tariff_escalations_2020.australian_capital_territory }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2020_tas"
+                                                    value="{{ tariff_escalations_2020.tasmania }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2020_nt"
+                                                    value="{{ tariff_escalations_2020.northern_territory }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>2021</strong></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2021_qld"
+                                                    value="{{ tariff_escalations_2021.queensland }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2021_nsw"
+                                                    value="{{ tariff_escalations_2021.new_south_wales }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2021_vic"
+                                                    value="{{ tariff_escalations_2021.victoria }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2021_sa"
+                                                    value="{{ tariff_escalations_2021.south_australia }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2021_wa"
+                                                    value="{{ tariff_escalations_2021.western_australia }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2021_act"
+                                                    value="{{ tariff_escalations_2021.australian_capital_territory }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2021_tas"
+                                                    value="{{ tariff_escalations_2021.tasmania }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2021_nt"
+                                                    value="{{ tariff_escalations_2021.northern_territory }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>2022</strong></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2022_qld"
+                                                    value="{{ tariff_escalations_2022.queensland }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2022_nsw"
+                                                    value="{{ tariff_escalations_2022.new_south_wales }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2022_vic"
+                                                    value="{{ tariff_escalations_2022.victoria }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2022_sa"
+                                                    value="{{ tariff_escalations_2022.south_australia }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2022_wa"
+                                                    value="{{ tariff_escalations_2022.western_australia }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2022_act"
+                                                    value="{{ tariff_escalations_2022.australian_capital_territory }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2022_tas"
+                                                    value="{{ tariff_escalations_2022.tasmania }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2022_nt"
+                                                    value="{{ tariff_escalations_2022.northern_territory }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>2023</strong></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2023_qld"
+                                                    value="{{ tariff_escalations_2023.queensland }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2023_nsw"
+                                                    value="{{ tariff_escalations_2023.new_south_wales }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2023_vic"
+                                                    value="{{ tariff_escalations_2023.victoria }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2023_sa"
+                                                    value="{{ tariff_escalations_2023.south_australia }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2023_wa"
+                                                    value="{{ tariff_escalations_2023.western_australia }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2023_act"
+                                                    value="{{ tariff_escalations_2023.australian_capital_territory }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2023_tas"
+                                                    value="{{ tariff_escalations_2023.tasmania }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2023_nt"
+                                                    value="{{ tariff_escalations_2023.northern_territory }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>2024</strong></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2024_qld"
+                                                    value="{{ tariff_escalations_2024.queensland }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2024_nsw"
+                                                    value="{{ tariff_escalations_2024.new_south_wales }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2024_vic"
+                                                    value="{{ tariff_escalations_2024.victoria }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2024_sa"
+                                                    value="{{ tariff_escalations_2024.south_australia }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2024_wa"
+                                                    value="{{ tariff_escalations_2024.western_australia }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2024_act"
+                                                    value="{{ tariff_escalations_2024.australian_capital_territory }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2024_tas"
+                                                    value="{{ tariff_escalations_2024.tasmania }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2024_nt"
+                                                    value="{{ tariff_escalations_2024.northern_territory }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>2025</strong></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2025_qld"
+                                                    value="{{ tariff_escalations_2025.queensland }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2025_nsw"
+                                                    value="{{ tariff_escalations_2025.new_south_wales }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2025_vic"
+                                                    value="{{ tariff_escalations_2025.victoria }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2025_sa"
+                                                    value="{{ tariff_escalations_2025.south_australia }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2025_wa"
+                                                    value="{{ tariff_escalations_2025.western_australia }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2025_act"
+                                                    value="{{ tariff_escalations_2025.australian_capital_territory }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2025_tas"
+                                                    value="{{ tariff_escalations_2025.tasmania }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2025_nt"
+                                                    value="{{ tariff_escalations_2025.northern_territory }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>2026</strong></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2026_qld"
+                                                    value="{{ tariff_escalations_2026.queensland }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2026_nsw"
+                                                    value="{{ tariff_escalations_2026.new_south_wales }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2026_vic"
+                                                    value="{{ tariff_escalations_2026.victoria }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2026_sa"
+                                                    value="{{ tariff_escalations_2026.south_australia }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2026_wa"
+                                                    value="{{ tariff_escalations_2026.western_australia }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2026_act"
+                                                    value="{{ tariff_escalations_2026.australian_capital_territory }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2026_tas"
+                                                    value="{{ tariff_escalations_2026.tasmania }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2026_nt"
+                                                    value="{{ tariff_escalations_2026.northern_territory }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>2027 onwards</strong></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2027_qld"
+                                                    value="{{ tariff_escalations_2027.queensland }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2027_nsw"
+                                                    value="{{ tariff_escalations_2027.new_south_wales }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2027_vic"
+                                                    value="{{ tariff_escalations_2027.victoria }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2027_sa"
+                                                    value="{{ tariff_escalations_2027.south_australia }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2027_wa"
+                                                    value="{{ tariff_escalations_2027.western_australia }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2027_act"
+                                                    value="{{ tariff_escalations_2027.australian_capital_territory }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2027_tas"
+                                                    value="{{ tariff_escalations_2027.tasmania }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="esc_2027_nt"
+                                                    value="{{ tariff_escalations_2027.northern_territory }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <button class="btn btn-primary btn-block"
+                                                id="btn-save-tariff-escalations">Save</button>
+                                        </td>
+
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-10">
+                            <table class="table table-responsive" style="display:block; overflow: auto;">
+                                <thead>
+                                    <tr align="center">
+                                        <th colspan="9">Energy Rates (c/kWh)</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Year</th>
+                                        <th>Queensland</th>
+                                        <th>New South Wales</th>
+                                        <th>Victoria</th>
+                                        <th>South Asutralia</th>
+                                        <th>Western Australia</th>
+                                        <th>Australian Capital Territory</th>
+                                        <th>Tasmania</th>
+                                        <th>Northern Territory</th>
+                                    </tr>
+                                    <tr align="center">
+                                        <th colspan="9">Peak Rates</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>2020</strong></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2020_qld"
+                                                    value="{{ peak_energy_rates_2020.queensland|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2020_nsw"
+                                                    value="{{ peak_energy_rates_2020.new_south_wales|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2020_vic"
+                                                    value="{{ peak_energy_rates_2020.victoria|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2020_sa"
+                                                    value="{{ peak_energy_rates_2020.south_australia|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2020_wa"
+                                                    value="{{ peak_energy_rates_2020.western_australia|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2020_act"
+                                                    value="{{ peak_energy_rates_2020.australian_capital_territory|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2020_tas"
+                                                    value="{{ peak_energy_rates_2020.tasmania|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2020_nt"
+                                                    value="{{ peak_energy_rates_2020.northern_territory|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>2021</strong></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2021_qld"
+                                                    value="{{ peak_energy_rates_2021.queensland|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2021_nsw"
+                                                    value="{{ peak_energy_rates_2021.new_south_wales|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2021_vic"
+                                                    value="{{ peak_energy_rates_2021.victoria|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2021_sa"
+                                                    value="{{ peak_energy_rates_2021.south_australia|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2021_wa"
+                                                    value="{{ peak_energy_rates_2021.western_australia|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2021_act"
+                                                    value="{{ peak_energy_rates_2021.australian_capital_territory|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2021_tas"
+                                                    value="{{ peak_energy_rates_2021.tasmania|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2021_nt"
+                                                    value="{{ peak_energy_rates_2021.northern_territory|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>2022</strong></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2022_qld"
+                                                    value="{{ peak_energy_rates_2022.queensland|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2022_nsw"
+                                                    value="{{ peak_energy_rates_2022.new_south_wales|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2022_vic"
+                                                    value="{{ peak_energy_rates_2022.victoria|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2022_sa"
+                                                    value="{{ peak_energy_rates_2022.south_australia|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2022_wa"
+                                                    value="{{ peak_energy_rates_2022.western_australia|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2022_act"
+                                                    value="{{ peak_energy_rates_2022.australian_capital_territory|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2022_tas"
+                                                    value="{{ peak_energy_rates_2022.tasmania|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="per_2022_nt"
+                                                    value="{{ peak_energy_rates_2022.northern_territory|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <button class="btn btn-primary btn-block"
+                                                id="btn-save-peak-energy-rates">Save</button>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr align="center">
+                                        <td colspan="9"><strong>Off peak Rates</strong></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>2020</strong></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2020_qld"
+                                                    value="{{ offpeak_energy_rates_2020.queensland|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2020_nsw"
+                                                    value="{{ offpeak_energy_rates_2020.new_south_wales|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2020_vic"
+                                                    value="{{ offpeak_energy_rates_2020.victoria|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2020_sa"
+                                                    value="{{ offpeak_energy_rates_2020.south_australia|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2020_wa"
+                                                    value="{{ offpeak_energy_rates_2020.western_australia|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2020_act"
+                                                    value="{{ offpeak_energy_rates_2020.australian_capital_territory|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2020_tas"
+                                                    value="{{ offpeak_energy_rates_2020.tasmania|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2020_nt"
+                                                    value="{{ offpeak_energy_rates_2020.northern_territory|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>2021</strong></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2021_qld"
+                                                    value="{{ offpeak_energy_rates_2021.queensland|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2021_nsw"
+                                                    value="{{ offpeak_energy_rates_2021.new_south_wales|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2021_vic"
+                                                    value="{{ offpeak_energy_rates_2021.victoria|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2021_sa"
+                                                    value="{{ offpeak_energy_rates_2021.south_australia|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2021_wa"
+                                                    value="{{ offpeak_energy_rates_2021.western_australia|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2021_act"
+                                                    value="{{ offpeak_energy_rates_2021.australian_capital_territory|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2021_tas"
+                                                    value="{{ offpeak_energy_rates_2021.tasmania|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2021_nt"
+                                                    value="{{ offpeak_energy_rates_2021.northern_territory|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>2022</strong></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2022_qld"
+                                                    value="{{ offpeak_energy_rates_2022.queensland|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2022_nsw"
+                                                    value="{{ offpeak_energy_rates_2022.new_south_wales|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2022_vic"
+                                                    value="{{ offpeak_energy_rates_2022.victoria|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2022_sa"
+                                                    value="{{ offpeak_energy_rates_2022.south_australia|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2022_wa"
+                                                    value="{{ offpeak_energy_rates_2022.western_australia|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2022_act"
+                                                    value="{{ offpeak_energy_rates_2022.australian_capital_territory|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2022_tas"
+                                                    value="{{ offpeak_energy_rates_2022.tasmania|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="oer_2022_nt"
+                                                    value="{{ offpeak_energy_rates_2022.northern_territory|default_if_none:'' }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <button class="btn btn-primary btn-block"
+                                                id="btn-save-offpeak-energy-rates">Save</button>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Tab Westpac Rates -->
+            <div class="tab-pane fade" id="westpac-rates" role="tabpanel" aria-labelledby="westpac-rates-tab">
+                <div style="padding: 10px; margin-top: 40px">
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="table" style="display: block; overflow: auto;">
+                                <thead>
+                                    <tr>
+                                        <th>Months</th>
+                                        <th>Greater than</th>
+                                        <th>Leass than or equal to</th>
+                                        <th>Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td rowspan="3">24</td>
+                                        <td>$0</td>
+                                        <td>$50,000</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>$50,000</td>
+                                        <td>$150,000</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>$150,000</td>
+                                        <td></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">36</td>
+                                        <td>$0</td>
+                                        <td>$50,000</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>$50,000</td>
+                                        <td>$150,000</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>$150,000</td>
+                                        <td></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">48</td>
+                                        <td>$0</td>
+                                        <td>$50,000</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>$50,000</td>
+                                        <td>$150,000</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>$150,000</td>
+                                        <td></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">60</td>
+                                        <td>$0</td>
+                                        <td>$50,000</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>$50,000</td>
+                                        <td>$150,000</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>$150,000</td>
+                                        <td></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">72</td>
+                                        <td>$0</td>
+                                        <td>$50,000</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>$50,000</td>
+                                        <td>$150,000</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>$150,000</td>
+                                        <td></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">84</td>
+                                        <td>$0</td>
+                                        <td>$50,000</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>$50,000</td>
+                                        <td>$150,000</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>$150,000</td>
+                                        <td></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">96</td>
+                                        <td>$0</td>
+                                        <td>$50,000</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>$50,000</td>
+                                        <td>$150,000</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>$150,000</td>
+                                        <td></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">108</td>
+                                        <td>$0</td>
+                                        <td>$50,000</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>$50,000</td>
+                                        <td>$150,000</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>$150,000</td>
+                                        <td></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="3">120</td>
+                                        <td>$0</td>
+                                        <td>$50,000</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>$50,000</td>
+                                        <td>$150,000</td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>$150,000</td>
+                                        <td></td>
+                                        <td>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="9.43">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Lighting Database starts here -->
+            <div class="tab-pane fade" id="lighting-database" role="tabpanel" aria-labelledby="lighting-database-tab">
+                <div style="padding: 10px; margin-top: 40px">
+                    <!-- Lighting Verdia Fee -->
+                    <form method="POST" id="form_lighting_data">{% csrf_token %}
+                        <div class="form-group row">
+                            <div class="col-sm-4 col-lg-3 col-xl-2">
+                                <label for="">Lighting Verdia Fee</label>
+                            </div>
+                            <div class="col-sm-4 col-lg-2">
+                                <input type="text" class="form-control" id="lighting_verdia_fee" placeholder=25>
+                            </div>
+                            <div class="col-sm-4 col-lg-2">
+                                <button type="submit" class="btn btn-primary"> Save </button>
+                            </div>                    
+                        </div>
+                    </form>
+                    <div id="lighting_data_save_message"></div>
+
+                    <hr>
+                    <!-- Table - LED Database -->
+                    <table class="table table-striped text-center"
+                        style="display: block; overflow: auto; max-height: 600px ;">
+                        <thead>
+                            <tr align="center">
+                                <td colspan="7">
+                                    <h3 style="color:red;"> LED Lights Database </h3>
+                                </td>
+                                <td colspan="2">
+                                    <button class="btn btn-info" data-toggle="modal" data-target="#modal-led-lights">Add
+                                        New Light</button>
+                                </td>
+
+                            </tr>
+                            <tr align="center">
+                                <td><strong>#</strong></td>
+                                <td><strong>Description</strong></td>
+                                <td><strong>Fitting Type</strong></td>
+                                <td><strong>Installation Type</strong></td>
+                                <td><strong>System Power</strong></td>
+                                <td><strong>LED Life (hours)</strong></td>
+                                <td><strong>Replacement fitting price ($)</strong></td>
+                                <td><strong>Replacement fittings per hour</strong></td>
+                                <td><strong>Action</strong></td>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl_led_database_body">
+
+
+                        </tbody>
+                    </table>
+
+                    <!-- Table - Existing Lights Database -->
+                    <table class="table table-striped text-center"
+                        style="display: block; overflow: auto; max-height: 600px ;">
+                        <thead>
+                            <tr align="center">
+                                <td colspan="13">
+                                    <h3 style="color:red;"> Existing Lights Database </h3>
+                                </td>
+                                <td colspan="2">
+                                    <button class="btn btn-info" data-toggle="modal"
+                                        data-target="#modal-existing-lights">Add
+                                        New Light</button>
+                                </td>
+
+                            </tr>
+                            <tr align="center">
+                                <td><strong>#</strong></td>
+                                <td><strong>Description</strong></td>
+                                <td><strong>Other common names</strong></td>
+                                <td><strong>LED Replacament</strong></td>
+                                <td><strong>Fitting Type</strong></td>
+                                <td><strong>Installation Type</strong></td>
+                                <td><strong>Lamp quantity</strong></td>
+                                <td><strong>Lamp Wattage</strong></td>
+                                <td><strong>System Power</strong></td>
+                                <td><strong>Lamp Life (hours)</strong></td>
+                                <td><strong>Replacement lamp price ($)</strong></td>
+                                <td><strong>Replacement lamp fittings per hour</strong></td>
+                                <td><strong>Replacement fitting price ($)</strong></td>
+                                <td><strong>Replacement fittings per hour</strong></td>
+                                <td><strong>Action</strong></td>
+                            </tr>
+                        </thead>
+                        <tbody id="tbl_existing_database_body">
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tab Solar & PFC Costs starts here -->
+            <div class="tab-pane fade" id="solar-pfc-costs" role="tabpanel" aria-labelledby="solar-pfc-costs-tab">
+                <div style="padding: 10px; margin-top: 40px">
+                    <div class="row">
+                        <div class="col-10">
+                            <table class="table table-borderless text-center">
+                                <thead class="border-bottom font-weight-bold">
+                                    <tr align="center">
+                                        <td colspan="5">
+                                            <h3 style="color:red;"> Solar Costs </h3>
+                                        </td>
+                                        <td colspan="2">
+                                            <button class="btn btn-info" data-toggle="modal"
+                                                data-target="#modal-solar-cost">Add
+                                                Solar Cost</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>System Size</td>
+                                        <td>Single site $/W</td>
+                                        <td>Single site Verdia Fee (%)</td>
+                                        <td>Multi site $/W</td>
+                                        <td>Multi site Verdia Fee (%)</td>
+                                        <td>Actions</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbl_solar_cost_body">
+                                </tbody>
+                            </table>
+                            <div id="div_solar_cost_error"></div>
+
+                        </div> <!-- Col -->
+                    </div> <!-- Row -->
+
+                    <div class="row">
+                        <div class="col-10">
+                            <table class="table table-borderless text-center">
+                                <thead class="border-bottom font-weight-bold">
+                                    <tr align="center">
+                                        <td colspan="2">
+                                            <h3 style="color:red;"> PFC Costs </h3>
+                                        </td>
+                                        <td colspan="2">
+                                            <button class="btn btn-info" data-toggle="modal"
+                                                data-target="#modal-pfc-cost">Add
+                                                PFC Cost</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>PFC Rating</td>
+                                        <td>PFC $/kvar</td>
+                                        <td>Actions</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbl_pfc_cost_body">
+                                </tbody>
+                            </table>
+                            <div id="div_pfc_cost_error"></div>
+
+                        </div> <!-- Col -->
+                    </div> <!-- Row -->
+                </div> <!-- Padding -->
+            </div> <!-- Tab Solar & PFC Costs ends here -->
+
+            <!-- Tab Solar Resource starts here -->
+            <div class="tab-pane fade" id="solar-resource" role="tabpanel" aria-labelledby="solar-resource-tab">
+                <div style="padding: 10px; margin-top: 40px">
+
+                    <form method="POST" id="form_solar_data_upload" enctype="multipart/form-data">{% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-8">     
+                                <div class="form-group row">
+                                    <div class="col-sm-5">
+                                        <label for="">File Name</label>
+                                    </div>
+                                    <div class="col-sm-7">
+                                        {{ solar_data_form.file_name }}
+                                    </div>
+                                </div>                                           
+                                <div class="form-group">                                    
+                                        {{ solar_data_form.solar_data_file }}
+                                    <div class="input-group col-xs-8 col-md-6 col-md-offset-2">
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-file"></i></span>
+                                        <input type="text" class="form-control input-sm" disabled
+                                            placeholder="Browse Solar Data">
+                                        <span class="input-group-btn">
+                                            <button class="browse btn btn-primary input-sm" type="button"><i
+                                                    class="glyphicon glyphicon-search"></i> Browse</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-warning" type="submit">Add Solar Data</button>
+                            </div>
+                        </div>
+                    </form>
+
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modals -->
+
+    <!-- LED Lights Modal -->
+    <div class="modal fade" id="modal-led-lights" tabindex="-1" role="dialog" aria-labelledby="modal-led-lights-title"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-led-lights-title">Add LED light</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="led_modal_save_message"></div>
+                    <form>
+                        <input type="hidden" id="hidden_led_id">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Description</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="led_name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Fitting Type</label>
+                            <div class="col-sm-6">
+                                <select name="" class="form-control" id="led_fitting_type">
+                                    <option selected disbaled></option>
+                                    <option>Batten</option>
+                                    <option>Bulkhead</option>
+                                    <option>Downlight</option>
+                                    <option>Decorative</option>
+                                    <option>Floodlight</option>
+                                    <option>Highbay</option>
+                                    <option>Other</option>
+                                    <option>Oyster</option>
+                                    <option>Panel</option>
+                                    <option>Weatherproof</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Installation Type</label>
+                            <div class="col-sm-6">
+                                <select name="" class="form-control" id="led_install_type">
+                                    <option selected disbaled></option>
+                                    <option>Recessed Plaster</option>
+                                    <option>Recessed T-Grid</option>
+                                    <option>Surface Mount</option>
+                                    <option>Suspended</option>
+                                    <option>Wall Mount</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">System Power</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="led_system_power">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">W</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">LED life</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="led_life">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">Hours</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Replacement Fitting Price</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                    <input type="text" class="form-control" id="led_replacement_fitting_price">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Replacement Fittings per hour</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="led_replacement_fittings_per_hour">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btn-save-led">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Existing Lights Modal -->
+    <div class="modal fade" id="modal-existing-lights" tabindex="-1" role="dialog"
+        aria-labelledby="modal-existing-lights-title" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-existing-lights-title">Add Existing light</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="existing_modal_save_message"></div>
+                    <form>
+                        <input type="hidden" id="hidden_existing_id">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Description</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="existing_name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Other Names</label>
+                            <div class="col-sm-6">
+                                <textarea id="existing_other_names" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">LED replacement</label>
+                            <div class="col-sm-6">
+                                <select name="" class="form-control" id="existing_led_replacement">
+                                    <option selected disbaled></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Fitting Type</label>
+                            <div class="col-sm-6">
+                                <select name="" class="form-control" id="existing_fitting_type">
+                                    <option selected disbaled></option>
+                                    <option>Batten</option>
+                                    <option>Bulkhead</option>
+                                    <option>Downlight</option>
+                                    <option>Decorative</option>
+                                    <option>Emergency Batten</option>
+                                    <option>Floodlight</option>
+                                    <option>Highbay</option>
+                                    <option>Other</option>
+                                    <option>Oyster</option>
+                                    <option>Panel</option>
+                                    <option>Troffer</option>
+                                    <option>Weatherproof</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Installation Type</label>
+                            <div class="col-sm-6">
+                                <select name="" class="form-control" id="existing_install_type">
+                                    <option selected disbaled></option>
+                                    <option>Recessed Plaster</option>
+                                    <option>Recessed T-Grid</option>
+                                    <option>Surface Mount</option>
+                                    <option>Suspended</option>
+                                    <option>Wall Mount</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Lamp Quantity</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="existing_lamp_quantity">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Lamp Wattage</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="existing_lamp_wattage">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">W</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">System Power</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="existing_system_power">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">W</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Lamp life</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="existing_life">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">Hours</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Replacement Lamp Price</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                    <input type="text" class="form-control" id="existing_replacement_lamp_price">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Replacement Lamp Fittings per hour</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control"
+                                    id="existing_replacement_lamp_fittings_per_hour">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Replacement Fitting Price</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                    <input type="text" class="form-control" id="existing_replacement_fitting_price">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Replacement Fittings per hour</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="existing_replacement_fittings_per_hour">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btn-save-existing">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Solar Cost Modal -->
+    <div class="modal fade" id="modal-solar-cost" tabindex="-1" role="dialog" aria-labelledby="modal-solar-cost-title"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-solar-cost-title">Add Solar Cost</h5>
+                    <button type="button" class="close btn-close-solar-cost">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" id="modal-form-solar-cost">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div id="solar_cost_modal_save_message"></div>
+                        <input type="hidden" id="hidden_solar_cost_id">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">System Size</label>
+                            <div class="col-sm-6">
+                                {{ solar_cost_form.system_size }}
+                            </div>
+                        </div>                        
+                        <div id="error_solar_cost_modal_system_size"></div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Single site ($/W)</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    {{ solar_cost_form.single_site_dollar_per_watt }}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">$/W</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="error_solar_cost_modal_single_site_dollar_per_watt"></div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Single site Verdia Fee (%)</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    {{ solar_cost_form.single_site_verdia_fee }}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="error_solar_cost_modal_single_site_verdia_fee"></div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Multi site ($/W)</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    {{ solar_cost_form.multi_site_dollar_per_watt }}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">$/W</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="error_solar_cost_modal_multi_site_dollar_per_watt"></div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">Multi site Verdia Fee (%)</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    {{ solar_cost_form.multi_site_verdia_fee }}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="error_solar_cost_modal_multi_site_verdia_fee"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-close-solar-cost" >Close</button>
+                        <button type="submit" class="btn btn-primary" id="btn-save-solar-cost">Save changes</button>
+                    </div>
+                </form>    
+            </div>
+        </div>
+    </div>
+
+    <!-- PFC Cost Modal -->
+    <div class="modal fade" id="modal-pfc-cost" tabindex="-1" role="dialog" aria-labelledby="modal-pfc-cost-title"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-pfc-cost-title">Add PFC Cost</h5>
+                    <button type="button" class="close btn-close-pfc-cost">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post" id="modal-form-pfc-cost">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div id="pfc_cost_modal_save_message"></div>
+                        <input type="hidden" id="hidden_pfc_cost_id">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">PFC Rating</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    {{ pfc_cost_form.pfc_rating }}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">kvar</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="error_pfc_cost_modal_pfc_rating"></div>
+                        <div class="form-group row">
+                            <label for="" class="col-sm-6 col-form-label">PFC $/kvar</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                    {{ pfc_cost_form.pfc_dollar_per_kvar }}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">/ kvar</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="error_pfc_cost_modal_pfc_dollar_per_kvar"></div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-close-pfc-cost" >Close</button>
+                        <button type="submit" class="btn btn-primary" id="btn-save-pfc-cost">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}
+
+
+{% block js %}
+
+<script src="{% static 'customjs/references.js' %}"></script>
+
+{% endblock %}
