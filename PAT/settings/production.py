@@ -25,7 +25,7 @@ SECRET_KEY = 'ml@^*22hfetp^8u+&cda^oi@lyqwn3#0b)^kxe=oefucspw^#-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['.herokuapp.com']
 
 AUTH_USER_MODEL = 'accounts.VerdiaUser'
 
