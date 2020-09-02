@@ -132,7 +132,7 @@ class LedLight(models.Model):
         ('Panel', 'Panel'),
         ('Weatherproof', 'Weatherproof'),
     ]
-    fitting_type = models.CharField(max_length=2, choices=FITTING_TYPE_CHOICES)
+    fitting_type = models.CharField(max_length=20, choices=FITTING_TYPE_CHOICES)
     # RECESSED_PLASTER = 'RP'
     # RECESSED_T_GRID = 'RTG'
     # SURFACE_MOUNT = 'SM'
@@ -148,7 +148,7 @@ class LedLight(models.Model):
         ('Other', 'Other'),
     ]
     installation_type = models.CharField(
-        max_length=2, choices=INSTALLATION_TYPE_CHOICES)
+        max_length=30, choices=INSTALLATION_TYPE_CHOICES)
     system_power = models.DecimalField(max_digits=5, decimal_places=1)
     led_life = models.IntegerField()
     replacement_fitting_price = models.DecimalField(
@@ -181,7 +181,7 @@ class ExistingLight(models.Model):
         ('Panel', 'Panel'),
         ('Weatherproof', 'Weatherproof'),
     ]
-    fitting_type = models.CharField(max_length=2, choices=FITTING_TYPE_CHOICES)
+    fitting_type = models.CharField(max_length=20, choices=FITTING_TYPE_CHOICES)
     # RECESSED_PLASTER = 'RP'
     # RECESSED_T_GRID = 'RTG'
     # SURFACE_MOUNT = 'SM'
@@ -197,7 +197,7 @@ class ExistingLight(models.Model):
         ('Other', 'Other'),
     ]
     installation_type = models.CharField(
-        max_length=2, choices=INSTALLATION_TYPE_CHOICES)
+        max_length=30, choices=INSTALLATION_TYPE_CHOICES)
     lamp_quantity = models.IntegerField()
     lamp_wattage = models.DecimalField(max_digits=5, decimal_places=1)
     system_power = models.DecimalField(max_digits=5, decimal_places=1)
