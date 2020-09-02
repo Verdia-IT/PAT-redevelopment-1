@@ -132,7 +132,7 @@ class LedLight(models.Model):
         ('Panel', 'Panel'),
         ('Weatherproof', 'Weatherproof'),
     ]
-    fitting_type = models.CharField(max_length=20, choices=FITTING_TYPE_CHOICES)
+    fitting_type = models.CharField(max_length=30, choices=FITTING_TYPE_CHOICES)
     # RECESSED_PLASTER = 'RP'
     # RECESSED_T_GRID = 'RTG'
     # SURFACE_MOUNT = 'SM'
@@ -181,7 +181,7 @@ class ExistingLight(models.Model):
         ('Panel', 'Panel'),
         ('Weatherproof', 'Weatherproof'),
     ]
-    fitting_type = models.CharField(max_length=20, choices=FITTING_TYPE_CHOICES)
+    fitting_type = models.CharField(max_length=30, choices=FITTING_TYPE_CHOICES)
     # RECESSED_PLASTER = 'RP'
     # RECESSED_T_GRID = 'RTG'
     # SURFACE_MOUNT = 'SM'
