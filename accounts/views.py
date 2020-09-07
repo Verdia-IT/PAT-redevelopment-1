@@ -68,7 +68,7 @@ def logout_page(request):
 def profile_page(request):
     
     profile = request.user.profile
-    old_path = profile.image.path
+    # old_path = profile.image.path
     form_profile = RegisterProfileForm(instance=profile)
 
 
