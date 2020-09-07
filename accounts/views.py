@@ -66,6 +66,12 @@ def logout_page(request):
 
 @login_required(login_url="/")
 def profile_page(request):
+    
+    profile = request.user.profile
+    old_path = profile.image.path
+    form_profile = RegisterProfileForm(instance=profile)
+
+
     context = {}
     return render(request,"auth/profile.html",context)
 
