@@ -72,12 +72,12 @@ def profile_page(request):
     # old_path = profile.image.path
     form_profile = RegisterProfileForm(instance=profile)
 
-    # if request.method == "POST":      
-    #     form_profile = RegisterProfileForm(request.POST, request.FILES or None, instance=profile)
-    #     if form_profile.is_valid():
-    #         # if request.FILES:             
-    #         #     os.remove(old_path)
-    #         form_profile.save()  
+    if request.method == "POST":      
+        form_profile = RegisterProfileForm(request.POST, request.FILES or None, instance=profile)
+        if form_profile.is_valid():
+            # if request.FILES:             
+            #     os.remove(old_path)
+            form_profile.save()  
     
     context = {
         'user':request.user,
