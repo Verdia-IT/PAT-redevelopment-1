@@ -63,6 +63,8 @@ def logout_page(request):
     request.session['logout_message'] =  "* You have been successfully logged out. Please Sign in again"
     return redirect("/")
 
+
+@login_required(login_url="/")
 def profile_page(request):
     context = {}
     return render(request,"auth/profile.html",context)
