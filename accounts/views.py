@@ -66,29 +66,17 @@ def logout_page(request):
 
 @login_required(login_url="/")
 def profile_page(request):
-    
-    profile = request.user.profile
-    # old_path = profile.image.path
-    form_profile = RegisterProfileForm(instance=profile)
-
-
-    context = {}
-    return render(request,"auth/profile.html",context)
-
-
-@login_required(login_url="/")
-def profile_page1(request):
-    # user = request.user   
+    user = request.user   
      
     profile = request.user.profile
-    old_path = profile.image.path
+    # old_path = profile.image.path
     form_profile = RegisterProfileForm(instance=profile)
 
     if request.method == "POST":      
         form_profile = RegisterProfileForm(request.POST, request.FILES or None, instance=profile)
         if form_profile.is_valid():
-            if request.FILES:             
-                os.remove(old_path)
+            # if request.FILES:             
+            #     os.remove(old_path)
             form_profile.save()  
     
     context = {
