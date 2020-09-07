@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # other apps
+    'storages',
+
     # custom apps
     'accounts',
     'inputs',

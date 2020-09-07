@@ -15,7 +15,7 @@ import math
 @login_required(login_url="/")
 def programs_page(request):   
     programs = Program.objects.all().order_by('id')
-    paginator = Paginator(programs, 5)
+    paginator = Paginator(programs, 10)
     try:
         page = min(int(request.GET.get('page','1')), paginator.num_pages)
     except:
