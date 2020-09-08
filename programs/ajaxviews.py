@@ -160,8 +160,7 @@ def run_simulations_page(request):
         return HttpResponse(json.dumps(data))
     
     # Save file (only in case of program level analysis) 
-    # with open('simulationprogramdata.json', 'w') as f:
-    #     json.dump(program_package_list, f, separators=(',', ': '))
+
 
     return HttpResponse(json.dumps(data))
 
