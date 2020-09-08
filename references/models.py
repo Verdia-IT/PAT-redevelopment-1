@@ -250,7 +250,7 @@ class PFCCost(models.Model):
 class PostcodeResource(models.Model):
     postcode = models.IntegerField()
     suburb = models.CharField(max_length=100)
-    state = models.CharField(max_length=20, choices=STATE_CHOICES)
+    state = models.CharField(max_length=100, choices=STATE_CHOICES)
     latitude = models.DecimalField(max_digits=11, decimal_places=8)
     longitude = models.DecimalField(max_digits=11, decimal_places=8)
     emissions_factor = models.DecimalField(max_digits=5, decimal_places=3, null=True, blank=True)
